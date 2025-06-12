@@ -21,7 +21,8 @@ namespace Todo.Infrastructure.Data.Repositories
 
         public async Task<TodoItem?> GetByIdAsync(Guid id)
         {
-            return await _context.TodoItems.FindAsync(id);
+            return await _context.TodoItems.FindAsync(id) ??
+                   throw new KeyNotFoundException($"TodoItem with ID {id} not found."); ;
         }
 
         public async Task<TodoItem> AddAsync(TodoItem item)
@@ -30,16 +31,18 @@ namespace Todo.Infrastructure.Data.Repositories
             return item;
         }
 
-        public async Task UpdateAsync(TodoItem item)
+        public async Task<TodoItem> UpdateAsync(TodoItem item)
         {
             _context.TodoItems.Update(item);
             await _context.SaveChangesAsync();
+            return item;
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             TodoItem item = await this.GetByIdAsync(id);
             _context.TodoItems.Remove(item);
+            return true;
         }
 
         public async Task SaveChangesAsync()
