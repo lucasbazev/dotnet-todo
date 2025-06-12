@@ -1,0 +1,36 @@
+MinhaAplicacaoHexagonal/
+│
+├── src/
+│   ├── MinhaAplicacao.Domain/           <-- Projeto .NET Class Library (Regra de Negócio)
+│   │   ├── Entities/                    <-- Entidades de Negócio
+│   │   ├── Services/                    <-- Lógica de Negócio (Use Cases/Application Services)
+│   │   ├── Interfaces/                  <-- Portas de Entrada (Driven Ports) e Saída (Driving Ports)
+│   │   │   ├── Repositories/            <-- Interfaces para persistência (ex: IProductRepository)
+│   │   │   └── Services/                <-- Interfaces para serviços de domínio (ex: IProductCreationService)
+│   │   ├── ValueObjects/                <-- Objetos de Valor (opcional, mas bom para expressar domínio)
+│   │   └── Exceptions/                  <-- Exceções de Negócio
+│   │
+│   ├── MinhaAplicacao.Application/      <-- Projeto .NET Class Library (Orquestração/Aplicação) - Opcional, mas comum para Commands/Queries
+│   │   ├── Commands/                    <-- DTOs de Comandos (ex: CreateProductCommand)
+│   │   ├── Queries/                     <-- DTOs de Queries (ex: GetProductByIdQuery)
+│   │   ├── Handlers/                    <-- Classes que processam Commands/Queries (ex: CreateProductCommandHandler)
+│   │   └── Mappers/                     <-- Mapeamento entre DTOs e Entidades (opcional)
+│   │
+│   ├── MinhaAplicacao.Infrastructure/   <-- Projeto .NET Class Library (Adapters de Saída - Driven Adapters)
+│   │   ├── Data/                        <-- Implementações de Repositórios (Entity Framework Core)
+│   │   │   ├── Repositories/            <-- Implementações de IRepository
+│   │   │   ├── Context/                 <-- DbContext do Entity Framework Core
+│   │   │   └── Migrations/              <-- Migrações do EF Core
+│   │   ├── ExternalServices/            <-- Adapters para outros serviços externos (APIs, filas)
+│   │   └── IoC/                         <-- Configuração de Injeção de Dependência
+│   │
+│   └── MinhaAplicacao.Api/              <-- Projeto .NET Web API (Adapter Primário - Driving Adapter)
+│       ├── Controllers/                 <-- Endpoints da API REST
+│       ├── Startup.cs                   <-- Configuração da aplicação (middleware, DI)
+│       ├── appsettings.json
+│       └── Program.cs
+│
+└── tests/
+    ├── MinhaAplicacao.Domain.Tests/
+    ├── MinhaAplicacao.Application.Tests/
+    └── MinhaAplicacao.Api.Tests/
