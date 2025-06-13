@@ -11,7 +11,8 @@ namespace Todo.Domain.Entities
         {
             Id = Guid.NewGuid();
             IsCompleted = false;
-            title = title ?? throw new ArgumentException("Title cannot be empty.", nameof(title));
+            Title = title ?? throw new ArgumentException("Title cannot be empty.", nameof(title));
+            Description = description;
         }
 
         // Entity Framework Core uses this empty constructor on db entity instantiation
