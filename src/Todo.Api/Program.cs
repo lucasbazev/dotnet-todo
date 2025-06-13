@@ -1,5 +1,4 @@
 using Todo.Infrastructure.IoC;
-
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("TodoDatabase");
@@ -12,14 +11,13 @@ if (string.IsNullOrEmpty(connectionString))
 builder.Services.AddInfrastructure(connectionString);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddOpenApi();
-
+builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
