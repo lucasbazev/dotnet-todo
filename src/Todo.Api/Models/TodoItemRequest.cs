@@ -11,4 +11,10 @@ namespace Todo.Api.Models
 
         public string? Description { get; set; }
     }
+
+    public class TodoItemPatchRequest
+    {
+        public string? Title { get; set; }
+        public string? Description { get; set; }
+    }
 }

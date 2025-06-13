@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Todo.Api.Controllers
 {
     [ApiController] // This class is an API controller
-    [Route("todo-items/[controller]")]
+    [Route("todo-items")]
     public class TodoItemsController : ControllerBase
     {
         private readonly ITodoItemService _todoItemService;
@@ -62,8 +62,8 @@ namespace Todo.Api.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<TodoItemRequest>> Update(Guid id, [FromBody] TodoItemRequest request)
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<TodoItemRequest>> Update(Guid id, [FromBody] TodoItemPatchRequest request)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace Todo.Api.Controllers
                     return BadRequest("Request cannot be null.");
                 }
 
-                var updatedItem = await _todoItemService.UpdateAsync(id, request.Title, request?.Description);
+                var updatedItem = await _todoItemService.UpdateAsync(id, request?.Title, request?.Description);
 
                 if (updatedItem == null)
                 {
@@ -112,7 +112,7 @@ namespace Todo.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<ActionResult<bool>> Delete(Guid id)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace Todo.Api.Controllers
                     return NotFound($"Todo item with ID {id} not found.");
                 }
 
-                return NoContent();
+                return Ok(true);
             }
             catch (Exception ex)
             {
